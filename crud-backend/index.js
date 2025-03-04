@@ -30,7 +30,7 @@ app.use(
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
-  res.locals.user = req.user; // Make user available in templates
+  res.locals.user = req.user; 
   next();
 });
 

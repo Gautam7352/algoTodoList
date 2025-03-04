@@ -24,7 +24,6 @@ const Todos = () => {
   return (
     <div className="todos">
       {msg&&<div className="message">{msg}</div>}
-
       {loading&&<div className="progressBar"></div>}
       <h1>Todolist</h1>
       <form
