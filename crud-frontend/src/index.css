@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+
+*{
+  margin: 0;
+  padding: 0;
+  
+}
+::-webkit-scrollbar{
+  opacity: 0;
+}
+::placeholder{
+  color:darkslategrey;
+}
+.todos{
+  width: 60%;
+  height: 80%;
+  background-color: black;
+  border-radius: 20px;
+  color: gray;
+  justify-content: start;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+}
+form{
+  display: flex;
+  gap: 10px;
+}
+input, button{
+  padding: 3px 8px;
+  border-radius: 8px;
+  background-color: lightblue;
+  border:none;
+  box-shadow: inset 1px 1px 3px rgb(116, 186, 207);
+  
+  /* 1px solid lavenderblush; */
+}
+button{
+  cursor: pointer;
+}
+.search{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.clearSearch{
+  opacity: 1;
+  animation: fadeIn 0.8s ease-in ;
+}
+
+.todolist-container{
+  width: 90%;
+  max-height:100%;
+  overflow-y: auto;
+}
+table{
+  width: 100%;
+  border: none;
+}
+.todo{
+  width: 100%;
+  animation: slideUp ease-in ;
+  animation-duration: 0.3s;
+
+}
+tr{
+  transition: all 0.2s ease-in-out;
+}
+tr:hover{
+  background-color: darkgray;
+  color: black;
+  
+  cursor: pointer;
+}
+tr td:nth-child(1){
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+tr td:nth-child(2){
+  width: 55%;
+}
+
+tr td:nth-child(3){
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.todo-options{
+  display: flex;
+  justify-content: end;
+  gap: 5px;
+}
+
+
+@keyframes fadeIn {
+  from{
+    opacity: 0;
+  }  
+  to{
+    opacity: 1;
+  }
+}
+@keyframes scaleIn {
+  from{
+    scale: 0;
+  }  
+  to{
+    scale: 100%;
+  }
+}
+@keyframes slideUp {
+  from{
+    transform: translateY(20%);
+  }  
+  to{
+    transform: translateY(0%);
+
+  }
+}
+
+
+
+/* checkbox animation */
+
+.check {
+  width: 20px;
+  height:20px;
+  margin: auto;
+  
+  input {
+    display: none;
+    &:checked + .box {
+      background-color: #b3ffb7;
+      border-radius: 5px;
+      &:after {
+        top: 0;
+      }
+    }
+  }
+  
+  .box {
+    border-radius: 3px;
+    width: 100%;
+    height: 100%;
+    transition: all 1.1s cubic-bezier(.19,1,.22,1);
+    border: 2px solid transparent;
+    background-color: white;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+      box-shadow: 0 5px rgba(0,0,0,.2);
+    &:after {
+      width: 60%;
+      height: 20%;
+      content: '';
+      position: absolute;
+      border-left: 4px solid;
+      border-bottom: 4px solid;
+      border-color: #40c540;
+      transform: rotate(-50deg) translate3d(0,0,0);
+      transform-origin: center center;
+      transition: all 1.1s cubic-bezier(.19,1,.22,1);
+      left: 0;
+      right: 0;
+      top: 200%;
+      bottom: 5%;
+      margin: auto;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+
+.app{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  
+  background-color: rgb(60, 60, 60);
+}
+.auth-container{
+  position: absolute;
+  top: 1%;
+  right: 1%;
+}
+.user-auth{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.user-auth img{
+  border-radius: 100%;
+}
