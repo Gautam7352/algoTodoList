@@ -152,6 +152,3 @@ Contributions are welcome! Feel free to open issues or submit pull requests. Ple
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-```
-
-Simply copy and paste the above content into a `README.md` file in your repository's root directory. Adjust any details as needed for your specific project.
