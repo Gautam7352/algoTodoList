@@ -198,6 +198,45 @@ const useTodos = () => {
       setMsg("Todo completion updated locally");
     }
   };
+  // const copyAllTodos = () => {
+  //   const toCopy = filteredTodos.map((todo, index) => 
+  //     `${index + 1}). ${todo.completed ? '(done)   ' : '(pending)'} ${todo.title}`
+  //   ).join("\n"); // Join array elements into a string with new lines
+  
+  //   alert(toCopy);
+  // };
+  // optimized
+  const copyAllTodos = () => {
+    if (!filteredTodos.length) {
+      alert("No todos to copy!");
+      return;
+    }
+  
+    // Define column widths
+    const indexWidth = 5; // Space for index numbers
+    const statusWidth = 10; // Space for status (done/pending)
+    const titleWidth = 30; // Space for title (adjust as needed)
+  
+    // Header row (optional)
+    const header = "No.  | Status     | Title\n" + "-".repeat(indexWidth + statusWidth + titleWidth);
+  
+    // Format each todo into aligned columns
+    const toCopy = filteredTodos
+      .map((todo, index) =>
+        `${(index + 1).toString().padEnd(indexWidth)}| ` +
+        `${(todo.completed ? "✅ Done" : "⏳ Pending").padEnd(statusWidth)}| ` +
+        `${todo.title.padEnd(titleWidth)}`
+      )
+      .join("\n");
+  
+    // Copy to clipboard
+    const formattedText = `${header}\n${toCopy}`;
+    navigator.clipboard.writeText(formattedText)
+      .then(() => setMsg("Todos copied to clipboard!"))
+      .catch((err) => alert("Failed to copy: " + err));
+  };
+  
+  
 
   return {
     todolist,
@@ -216,6 +255,7 @@ const useTodos = () => {
     deleteTodo,
     deleteAllTodos,
     toggleCompletion,
+    copyAllTodos
   };
 };
 

@@ -11,9 +11,33 @@ body {
   padding: 0;
   
 }
-::-webkit-scrollbar{
-  opacity: 0;
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: lightblue #222;
 }
+
+/* For Chrome, Edge, and Safari */
+::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #222; /* Background of the scrollbar track */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: lightblue; /* Color of the scrollbar thumb */
+  border-radius: 10px;
+  border: 2px solid #222; /* Creates a padding around thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: lightblue; /* Change on hover */
+}
+
 ::placeholder{
   color:darkslategrey;
 }
@@ -25,148 +49,217 @@ body {
   font-size: large;
   font-weight: 600px;
 }
-.todos{
-  width: 60%;
-  height: 80%;
-  background-color: black;
-  border-radius: 20px;
-  color: white;
-  justify-content: start;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  gap: 10px;
-  position:relative;
+.todos {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #222;
+  color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
 }
-.progressBar{
-  position: absolute;
-  top: 0;
-  left: 17px;
-  width: 96%;
-  background-color: #40c540;
-  height: 1px;
-  border-radius: 20px;
-  animation: progressAnime 0.2s ease-in ;
-}
-@keyframes progressAnime {
-  form{
-    width: 10%;
-  }
-  to{
-    width: 96%;
-  }
-}
-form{
-  display: flex;
-  gap: 10px;
-}
-.message{
-  position: absolute;
-  top: -7%;
-  z-index: 100;
-  background-color: black;
-  color: azure;
-  border-radius: 5px;
+
+.message {
+  position:absolute;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 5px 10px;
+  text-align: center;
+  background-color: #333;
+  border-radius: 5px;
 }
-input, button{
-  padding: 3px 8px;
+
+.progressBar {
+  height: 4px;
+  width: 100%;
+  background-color: #40c540;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  animation: progressAnime 0.2s ease-in;
+}
+
+@keyframes progressAnime {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+form {
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.todoinput{
+  display: flex;
+  justify-content: space-between;
+}
+#todoInput{
+  width: 85%;
+}
+#addBtn{
+  width: 11%;
+  font-weight: bold;
+}
+.moreOptions{
+  display: flex;
+  justify-content: end;
+  gap: 0.5em;
+}
+#clearBtn{
+  width: 11%;
+}
+input, button {
+   padding:  8px;
   border-radius: 8px;
   background-color: lightblue;
   border:none;
   box-shadow: inset 1px 1px 3px rgb(116, 186, 207);
-  
-  /* 1px solid lavenderblush; */
 }
-button{
+
+button {
   cursor: pointer;
+  background-color: rgb(83, 114, 124);
 }
-.search{
+.search-container{
   display: flex;
-  gap: 10px;
-  align-items: center;
-}
-.clearSearch{
-  padding: 0;
-  opacity: 1;
-  animation: fadeIn 0.8s ease-in ;
-}
-
-.todolist-container{
-  width: 90%;
-  max-height:100%;
-  overflow-y: auto;
-}
-table{
-  width: 100%;
-  border: none;
-}
-.todo{
-  width: 100%;
-  animation: slideUp ease-in ;
-  animation-duration: 0.3s;
-
-}
-tr{
-  transition: all 0.2s ease-in-out;
-}
-tr:hover{
-  background-color: rgba(169, 169, 169, 0.541);
-  color: black;
-  
-  cursor: pointer;
-}
-tr td:nth-child(1){
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-tr td:nth-child(2){
-  width: 55%;
-}
-
-tr td:nth-child(3){
-  display:flex;
   justify-content: space-between;
   align-items: center;
-  
+  margin-bottom: 10px;
 }
-
-.todo-options{
+.search {
   display: flex;
-  justify-content: end;
+  align-items: center;
   gap: 5px;
 }
 
-
-@keyframes fadeIn {
-  from{
-    opacity: 0;
-  }  
-  to{
-    opacity: 1;
-  }
-}
-@keyframes scaleIn {
-  from{
-    scale: 0;
-  }  
-  to{
-    scale: 100%;
-  }
-}
-@keyframes slideUp {
-  from{
-    transform: translateY(20%);
-  }  
-  to{
-    transform: translateY(0%);
-
-  }
+.clearSearch {
+  border: none;
+  cursor: pointer;
 }
 
+.todolist-container {
+  overflow-y: auto;
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-radius: 10px;
+
+}
+
+.todo-item {
+  background-color: #333;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.todo-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.check {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.check input {
+  position: absolute;
+  opacity: 0;
+}
+
+.check .box {
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+  border-radius: 3px;
+}
+
+.todo-title {
+  flex: 1;
+}
+
+.todo-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+.todo-options button {
+  border: none;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.no-todos {
+  text-align: center;
+  padding: 20px;
+  background-color: #444;
+  border-radius: 5px;
+}
+
+
+@media (max-width:450px) {
+  .todos{
+  width: 93%;
+  padding: 10px;
+
+  }
+  .todos h1{
+    margin: 10px ;
+  }
+  .todo{
+    background-color: #0e3b0e;
+    width: 100%;
+    
+  }
+  .todoinput{
+    gap: 0.5em;
+  }
+  #addBtn{
+    width: 20%;
+  }
+  #clearBtn{
+    width: 18%;
+  }
+  .todolist-container{
+    width: 100%;
+  }
+  
+  .todoCount{
+    font-size:x-small;
+  }
+  .todo-title{
+    font-size: small;
+  }
+
+  .todo-menu{
+    background-color: #396d39;
+  }
+  .todoDate{
+    font-size:x-small;
+  }
+  .todo-options{
+    flex-direction: column;
+    gap: 1px;
+  }
+  .todo-options button svg{
+    width: 15px;  
+    height: 15px;
+  }
+}
 
 
 /* checkbox animation */
@@ -215,5 +308,33 @@ tr td:nth-child(3){
       bottom: 5%;
       margin: auto;
     }
+  }
+}
+
+/* other animations */
+
+@keyframes fadeIn {
+  from{
+    opacity: 0;
+  }  
+  to{
+    opacity: 1;
+  }
+}
+@keyframes scaleIn {
+  from{
+    scale: 0;
+  }  
+  to{
+    scale: 100%;
+  }
+}
+@keyframes slideUp {
+  from{
+    transform: translateY(20%);
+  }  
+  to{
+    transform: translateY(0%);
+
   }
 }
