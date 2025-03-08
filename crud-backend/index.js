@@ -93,9 +93,10 @@ app.post("/create-todo", async (req,res)=>{
       if (!req.isAuthenticated()) {
         return res.status(401).json({ message: "Not authenticated" });
       }
-        const {title} = req.body
+        const {title,deadline} = req.body
         const newTodo = new Todo({
           title,
+          deadline:deadline?deadline:"",
           userId: req.user._id,
         })
         await newTodo.save()
@@ -110,11 +111,12 @@ app.post("/create-todo", async (req,res)=>{
 // update todo
 app.patch("/update-todo/:id", async (req, res) => {
     try {
-      const { title } = req.body;
+      const { title,deadline } = req.body;
       
       const updatedTodo = await Todo.findByIdAndUpdate(
         req.params.id, 
-        { title },  
+        { title,
+          deadline:deadline?deadline:"", },  
         { new: true } 
       );
   
@@ -182,7 +184,7 @@ app.delete("/delete-todos", async (req, res) => {
 
 app.get("/",(req,res)=>{
     console.log("get request" + req.body)
-    res.json({message:"get request"})
+    res.redirect(process.env.FRONTEND_URL)
 })
 
 const PORT = process.env.PORT || 5000
