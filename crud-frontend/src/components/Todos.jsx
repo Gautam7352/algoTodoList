@@ -11,6 +11,10 @@ const Todos = () => {
     loading,
     input,
     setInput,
+    deadlineToggle,
+    setdeadlineToggle,
+    deadline,
+    setdeadline,
     msg,
     updateId,
     setUpdateId,
@@ -20,7 +24,8 @@ const Todos = () => {
     deleteTodo,
     deleteAllTodos,
     toggleCompletion,
-    copyAllTodos
+    copyAllTodos,
+    resetForm
   } = useTodos();
 
   return (
@@ -50,13 +55,28 @@ const Todos = () => {
         type="submit" value={updateId ? "Update" : "Add"} />
           </div>
         <div className="moreOptions">
-          <button id="copyAll" type="button" onClick={copyAllTodos} title="Copy whole todolist with formatting.">Copy All</button>
-          <button id="deleteAll" type="button" onClick={deleteAllTodos}>
-            Delete All
-          </button>
-          <button id="clearBtn" type="button" onClick={() => { setInput(""); setUpdateId(null); }}>
-            {updateId ? "Cancel" : "Clear"}
-          </button>
+            <div className="deadline">
+              <label id="deadlineLabel" htmlFor="deadlineToggle"> 
+                DeadLine? 
+                <input type="checkbox" checked={deadlineToggle} 
+                  onChange={() => setdeadlineToggle(prev => !prev)}
+                  name="deadline" id="deadlineToggle" />
+              </label>
+              {deadlineToggle && (
+                <input type="datetime-local" value={deadline} 
+                  onChange={e => setdeadline(e.target.value)}
+                  name="deadline" id="deadline" />
+              )}
+            </div>
+          <div className="otherOptions">
+            <button id="copyAll" type="button" onClick={copyAllTodos} title="Copy whole todolist with formatting.">Copy All</button>
+            <button id="deleteAll" type="button" onClick={deleteAllTodos}>
+              Delete All
+            </button>
+            <button id="clearBtn" type="button" onClick={() => resetForm()}>
+              {updateId ? "Cancel" : "Clear"}
+            </button>
+          </div>
         </div>
       </form>
       <div className="search-container">
@@ -96,9 +116,16 @@ const Todos = () => {
                 <div className="todo-title">{todo.title}</div>
               </div>
               <div className="todo-footer">
-                <span className="todoDate">
-                  {new Date(todo.time).toLocaleString()}
-                </span>
+                <div className="todoDates">
+                  {todo.deadline&&
+                    <div className="todoDeadline">
+                      Deadline: {new Date(todo.deadline).toLocaleString()}
+                    </div>
+                  }
+                  <span className="todoDate">
+                    Created: {new Date(todo.time).toLocaleString()}
+                  </span>
+                </div>
                 <div className="todo-options">
                   <button onClick={() => editTodo(todo._id)}>
                     <SquarePen color="black" />

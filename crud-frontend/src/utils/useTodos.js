@@ -9,9 +9,17 @@ const useTodos = () => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState("");
+  const [deadlineToggle, setdeadlineToggle] = useState(false)
+  const [deadline, setdeadline] = useState(null)
   const [msg, setMsg] = useState("");
   const [updateId, setUpdateId] = useState(null);
 
+  const resetForm =()=>{
+    setInput("");
+    setdeadline(null)
+    setdeadlineToggle(false)
+    setUpdateId(null)
+  }
   // Fetch todos when component mounts
   useEffect(() => {
     getTodos();
@@ -54,7 +62,7 @@ const useTodos = () => {
         .get("/todos")
         .then((res) => settodolist(res.data.todos))
         .catch(() => setMsg("Error fetching Todos"))
-        .finally(() => setLoading(false));
+        .finally(() =>{ setLoading(false);console.log(todolist)});
     } else {
       const localTodos = JSON.parse(localStorage.getItem("todos")) || [];
       settodolist(localTodos);
@@ -73,8 +81,12 @@ const useTodos = () => {
     e.preventDefault();
     setLoading(true);
     if (isUserLoggedIn()) {
+      const newTodo = {
+        title:input,
+        deadline
+      }
       api
-        .post("/create-todo", { title: input })
+        .post("/create-todo", newTodo)
         .then((res) => {
           setMsg(res.data.message);
           getTodos();
@@ -82,7 +94,7 @@ const useTodos = () => {
         .catch(() => setMsg("Failed to add todo"))
         .finally(() => {
           setLoading(false);
-          setInput("");
+          resetForm()
         });
     } else {
       const newTodo = {
@@ -90,20 +102,41 @@ const useTodos = () => {
         title: input,
         completed: false,
         time: new Date(),
+        deadline
       };
       const updatedTodos = [...todolist, newTodo];
       saveLocalTodos(updatedTodos);
       setMsg("Todo added locally");
       setLoading(false);
-      setInput("");
+      resetForm()
     }
   };
-
+  const formatDateTimeLocal = (isoString) => {
+    if (!isoString) return "";
+  
+    const date = new Date(isoString); // Convert ISO string to Date object
+    const localISOString = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 16); // Format correctly for <input type="datetime-local">
+  
+    return localISOString;
+  };
+  
+  // When setting the state initially
   // Set todo for editing
   const editTodo = (id) => {
     setUpdateId(id);
     const todoNow = todolist.find((item) => item._id === id);
-    if (todoNow) setInput(todoNow.title);
+    if (todoNow){
+      setInput(todoNow.title);
+      if(todoNow.deadline){
+        setdeadlineToggle(true)
+        setdeadline(formatDateTimeLocal(todoNow.deadline));
+        }else{
+          setdeadline(null)
+          setdeadlineToggle(false)
+        }
+      }
   };
 
   // Handle update (edit) submission
@@ -111,13 +144,17 @@ const useTodos = () => {
     e.preventDefault();
     setLoading(true);
     if (isUserLoggedIn()) {
+      const newTodo = {
+        title:input,
+        deadline
+      }
       api
-        .patch(`/update-todo/${updateId}`, { title: input })
+        .patch(`/update-todo/${updateId}`,newTodo)
         .then((res) => {
           setMsg(res.data.message);
           settodolist((items) =>
             items.map((item) =>
-              item._id === updateId ? { ...item, title: input } : item
+              item._id === updateId ? { ...item, title: input, deadline } : item
             )
           );
         })
@@ -125,17 +162,17 @@ const useTodos = () => {
         .finally(() => {
           setLoading(false);
           setUpdateId(null);
-          setInput("");
+          resetForm()
         });
     } else {
       const updatedTodos = todolist.map((todo) =>
-        todo._id === updateId ? { ...todo, title: input } : todo
+        todo._id === updateId ? { ...todo, title: input, deadline } : todo
       );
       saveLocalTodos(updatedTodos);
       setMsg("Todo updated locally");
       setLoading(false);
       setUpdateId(null);
-      setInput("");
+      resetForm()
     }
   };
 
@@ -246,6 +283,10 @@ const useTodos = () => {
     loading,
     input,
     setInput,
+    deadlineToggle,
+    setdeadlineToggle,
+    deadline,
+    setdeadline,
     msg,
     updateId,
     setUpdateId,
@@ -255,7 +296,8 @@ const useTodos = () => {
     deleteTodo,
     deleteAllTodos,
     toggleCompletion,
-    copyAllTodos
+    copyAllTodos,
+    resetForm
   };
 };
 

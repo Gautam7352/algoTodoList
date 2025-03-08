@@ -107,13 +107,24 @@ form {
   width: 11%;
   font-weight: bold;
 }
+.deadline{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 .moreOptions{
   display: flex;
+  justify-content: space-between;
+  gap: 0.5em
+}
+.otherOptions{
+  display: flex;
   justify-content: end;
-  gap: 0.5em;
+  width: 40%;
+  gap: 0.5em
 }
 #clearBtn{
-  width: 11%;
+  width: 28%;
 }
 input, button {
    padding:  8px;
@@ -337,4 +348,71 @@ button {
     transform: translateY(0%);
 
   }
+}
+
+
+
+/* deadline toggle css from codepen */
+#deadlineToggle {
+  width: 50px; /* Smaller width */
+  height: 24px; /* Smaller height */
+  border-radius: 12px;
+  position: relative;
+  appearance: none;
+  -webkit-appearance: none;
+  background: linear-gradient(#c6c6c6, #e3e3e3);
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+#deadlineToggle:checked {
+  background: linear-gradient(#bfe09c, #c8eca0);
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+#deadlineToggle::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 3px;
+  left: 3px;
+  border-radius: 50%;
+  background: linear-gradient(#ebebeb, #f1f1f1);
+  box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.2),
+              -1px 1px 2px rgba(0, 0, 0, 0.3), 
+              inset 1px 1px 1px #ffffff;
+  transition: left 0.3s ease-in-out;
+}
+
+#deadlineToggle:checked::before {
+  left: 28px;
+  background: #f1f1f1;
+}
+
+.deadline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deadline label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.moreOptions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#deadline {
+  padding: 5px;
+  font-size: 14px;
+  
 }
