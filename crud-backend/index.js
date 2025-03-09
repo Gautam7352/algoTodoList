@@ -7,6 +7,7 @@ const passport = require("passport");
 const session = require("express-session");
 require("./utils/passportConfig");
 const Todo = require("./models/todo")
+const TodoList = require("./models/Todolist")
 const app = express()
 
 app.use(
@@ -61,12 +62,63 @@ app.get("/logout", (req, res, next) => {
   });
 });
 
-
 // Protected Route Example
 app.get("/profile", (req, res) => {
   if (!req.user) return res.status(401).json({ error: "Not authenticated" });
   res.json({ user: req.user });
 });
+
+// get todolists
+app.get("/todolists", async (req, res) => {
+  try {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+      const todolists = (await TodoList.find({ userId: req.user._id })).reverse(); // Await the database query
+      
+      if (todolists.length > 0) {
+          res.json({ todolists });
+      } else {
+          res.json({ message: "No Todos Added" });
+      }
+  } catch (error) {
+      console.error("Error fetching todos:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// create todolist
+app.post("/create-todolist", async (req,res)=>{
+  try{
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+      const {title} = req.body
+      const newTodo = new TodoList({
+        title,
+        userId: req.user._id,
+      })
+      await newTodo.save()
+      res.json({ message: "Todolist Created", todolist: newTodo });
+  }
+  catch(e){
+      res.status(500).json({ error: "Error creating todolist" });
+  }
+})
+
+// delete todolist
+app.delete("/delete-todolist/:id", async (req, res) => {
+  try {
+    const result = await TodoList.findByIdAndDelete(req.params.id);
+    if (result) {
+      res.json({ message: "TodoList deleted successfully!" });
+    } else {
+      res.status(404).json({ message: "TodoList not found" });
+    }
+  } catch (e) {
+    res.status(500).json({ error: "Error Deleting Todolist" });
+  }
+}); 
 
 // get todos
 app.get("/todos", async (req, res) => {

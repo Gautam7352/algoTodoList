@@ -1,0 +1,144 @@
+:root{
+    --univarsal1:15px;
+}
+.navMenu {
+    background-color: #222;
+    color: white;
+    width: 15%;
+    height: 88%;
+    padding: var(--univarsal1);
+    border-radius: var(--univarsal1);
+    position: absolute;
+    left: -15%;
+    transition: left 0.5s ease-out; /* Smooth transition */
+}
+
+/* When menu is open */
+.navMenuToggleBtnOn {
+    left: 0;
+    animation: slideRight 0.5s ease-out forwards;
+}
+
+/* Slide Right Animation */
+@keyframes slideRight {
+    from {
+        left: -15%;
+    }
+    to {
+        left: 0;
+    }
+}
+
+/* Slide Left Animation */
+@keyframes slideLeft {
+    from {
+        left: 0;
+    }
+    to {
+        left: -15%;
+    }
+}
+
+/* Apply slideLeft when closed */
+.navMenuToggleBtnOff {
+    left: -15%;
+    animation: slideLeft 0.5s ease-out forwards;
+}
+
+.navMenuToggleBtn {
+    position: absolute;
+    cursor: pointer;
+    right: -2.1em;
+    line-height: 0;
+    padding: 5px;
+    border-radius: 0 var(--univarsal1) var(--univarsal1) 0;
+    background-color:#222;
+    transition: all 0.5s ease;
+}
+.rotate-180{
+    transform: rotate(180deg);
+}
+
+
+.navMenu h1{
+    font-size: 2em;
+}
+.theading{
+    display: flex;
+}
+.addTodolistBtn{
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    line-height: 0;
+    box-shadow: none;
+}
+.navMenu h2{
+    font-size: 1.5em;
+    word-break: break-all;
+}
+
+.todolists{
+
+}
+
+.todolist-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 10px auto;
+    border-radius: var(--univarsal1);
+    background-color: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    
+  }
+  .todolistOptions{
+    position: relative;
+  }
+  .todolistOptions p{
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 19px;
+    transition: all 0.2s ease-out;
+    
+    &:hover{
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+  }
+  .todolistOptionBtns {
+    display: flex;
+    gap: 5px;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    right: 0%;
+    top: -10%;
+    background: rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    border-radius: 5px;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s;
+    line-height: 0;
+    
+  }
+  
+  .todolistOptions:hover .todolistOptionBtns {
+    opacity: 1;
+    visibility: visible;
+  }
+  .navMenu form{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .navMenu form input {
+    width: 90%;
+  }
+  .todolistTitleInput{
+    background-color: transparent;
+    color: white;
+    font-weight: bold;
+    box-shadow: none;
+    outline: 1px solid lightblue;
+  }
