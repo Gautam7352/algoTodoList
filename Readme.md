@@ -1,4 +1,3 @@
-
 # TodoList MERN Application
 
 A full-stack Todo List application built with the MERN stack. This project supports user authentication via Google OAuth and a guest mode that uses localStorage to manage todos. Users can add, edit, delete, search, and toggle the completion status of todos.

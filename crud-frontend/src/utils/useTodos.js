@@ -61,8 +61,11 @@ const useTodos = () => {
       api
         .get("/todos")
         .then((res) => settodolist(res.data.todos))
-        .catch(() => setMsg("Error fetching Todos"))
-        .finally(() =>{ setLoading(false);console.log(todolist)});
+        .catch((error) => {
+          console.error("Error fetching Todos:", error);
+          setMsg("Error fetching Todos");
+        })
+        .finally(() => setLoading(false));
     } else {
       const localTodos = JSON.parse(localStorage.getItem("todos")) || [];
       settodolist(localTodos);
