@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useTodos from "../utils/useTodos";
 import Loading from "./Loading";
 import { SquarePen, Trash2, X, ArrowRightFromLine, TextCursor, Trash, CirclePlus } from "lucide-react";
+import { formatDistanceToNow } from 'date-fns'
 import '../navbar.css';
 
 const Todos = () => {
@@ -52,7 +53,16 @@ const Todos = () => {
   const [toggleCreateNewTodolist, settoggleCreateNewTodolist] = useState(true);
   const [toggleTodolistRename, settoggleTodolistRename] = useState(todolists.map(() => false));
   const [todolistTitle, settodolistTitle] = useState("");
+  const [currentTime, setCurrentTime] = useState(new Date())
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date())
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [])
+  
   const renameTodolist = (e, id) => {
     e.preventDefault();
     settodolists(prev => prev.map(todolist => id === todolist._id ? { ...todolist, title: todolistTitle } : todolist));
@@ -78,6 +88,13 @@ const Todos = () => {
       alert("not logged in");
     }
   };
+
+  //calculate remaining time
+  const getTimeRemaining = (deadline) => {
+    const timeLeft = deadline - currentTime.getTime()
+    if (timeLeft <= 0) return 'Time is up!'
+    return formatDistanceToNow(deadline, { addSuffix: true })
+  }
 
   return (
     <>
@@ -215,9 +232,9 @@ const Todos = () => {
                         Deadline: {new Date(todo.deadline).toLocaleString()}
                       </div>
                     }
-                    <span className="todoDate">
-                      Created: {new Date(todo.time).toLocaleString()}
-                    </span>
+                    <span className="deadline-text">
+                    {getTimeRemaining(todo.deadline)}
+                  </span>
                   </div>
                   <div className="todo-options">
                     <button onClick={() => editTodo(todo._id)}>
